@@ -2,7 +2,7 @@ package main
 
 import (
 	"github.com/hashicorp/sentinel-sdk/rpc"
-	"github.com/sentinel-plugin-file/env"
+	env "github.com/terrawork/sentinel-env/plugin"
 )
 
 func main() {

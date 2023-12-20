@@ -17,7 +17,7 @@ func TestMain(m *testing.M) {
 }
 
 func TestImport_impl(t *testing.T) {
-	var _ sdk.Import = New()
+	var _ sdk.Plugin = New()
 }
 
 func TestRoot_impl(t *testing.T) {
@@ -25,27 +25,24 @@ func TestRoot_impl(t *testing.T) {
 }
 
 func TestImport(t *testing.T) {
-	cwd, err := os.Getwd()
-	if err != nil {
-		t.Fatal(err)
-	}
+
 	cases := []struct {
 		Name   string
 		Source string
 	}{
 		{
-			"read_good",
-			fmt.Sprintf(`main = subject.read("%s/../testdata/foo.json") is "{\"foo\":\"bar\",\"baz\":\"qux\"}"`, cwd),
+			"get_good",
+			fmt.Sprintf(`main = subject.get("USER") is "%s"`, os.Getenv("USER")),
 		},
 		{
 			"list_good",
-			fmt.Sprintf(`main = subject.list("%s/../testdata") is [{"directory": false, "name": "foo.json"}]`, cwd),
+			fmt.Sprintf(`main = subject.list().USER is "%s"`, os.Getenv("USER")),
 		},
 	}
 
 	for _, tc := range cases {
 		t.Run(tc.Name, func(t *testing.T) {
-			plugintesting.TestImport(t, plugintesting.TestImportCase{
+			plugintesting.TestPlugin(t, plugintesting.TestPluginCase{
 				Source: tc.Source,
 			})
 		})
