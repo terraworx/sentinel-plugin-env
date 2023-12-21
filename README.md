@@ -4,46 +4,41 @@
 
 This repository contains a simple Go package named `env` that serves as a plugin for interacting with environment variables. It is designed to be used with the Sentinel framework.
 
-## Installation
+## Configuration
 
-To use this package, you need to have Go installed. If you haven't set up your Go environment, please visit [Go Installation Guide](https://golang.org/doc/install).
+To use this plugin, you need to have Sentinel installed. If you haven't set up Sentinl environment, please visit [Install Sentinel CLI](https://docs.hashicorp.com/sentinel/intro/getting-started/install).
 
-Once Go is installed, you can get the package by running:
+Once Sentinel is installed, you can configure the plugin by adding the following to the Sentinel configuration:
 
-```bash
-go get -u github.com/your-username/your-repository/env
+```terraform
+import "plugin" "env" {
+  source = "https://github.com/terraworx/sentinel-plugin-env/releases/download/v0.0.2/sentinel-env-v0.0.2-linux-amd64"
+}
 ```
 
 ## Usage
 
-### Initializing the Plugin
+### Importing the Plugin
 
-```go
-import (
-	"github.com/your-username/your-repository/env"
-)
-```
-
-To create an instance of the plugin:
-
-```go
-plugin := env.New()
+```sentinel
+import "env"
 ```
 
 ### Available Functions
 
-#### 1. `get(key string) (interface{}, error)`
+#### 1. `get(key string) `
 
 This function retrieves the value of the specified environment variable.
 
 Example:
 
-```go
-value, err := plugin.Func("get")("YOUR_VARIABLE_NAME")
-if err != nil {
-    // Handle error
-} else {
-    // Use the retrieved value
+```sentinel
+import "env"
+
+colorTerm = env.get("COLORTERM") // truecolor
+
+main = rule {
+    colorTerm is "truecolor"
 }
 ```
 
@@ -53,12 +48,11 @@ This function returns a map of all environment variables.
 
 Example:
 
-```go
-allEnv, err := plugin.Func("list")()
-if err != nil {
-    // Handle error
-} else {
-    // Use the map of environment variables
+```sentinel
+import "env"
+
+main = rule {
+    env.list().COLORTERM is "truecolor"
 }
 ```
 
