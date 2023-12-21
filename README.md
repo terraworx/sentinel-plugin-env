@@ -42,7 +42,7 @@ main = rule {
 }
 ```
 
-#### 2. `list() (map[string]string, error)`
+#### 2. `list()`
 
 This function returns a map of all environment variables.
 
